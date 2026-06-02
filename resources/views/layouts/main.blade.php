@@ -19,7 +19,23 @@
     {{-- Canonical --}}
     <link rel="canonical" href="{{ url()->current() }}">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BXbZrC1F.css') }}">
+
+    {{-- Production fallback: if vite assets not loading, check manually --}}
+    @production
+    <script>
+        // Check if CSS loaded, if not reload
+        window.addEventListener('load', function() {
+            var sheets = document.styleSheets;
+            var loaded = false;
+            for (var i = 0; i < sheets.length; i++) {
+                if (sheets[i].href && sheets[i].href.indexOf('/build/assets/') > -1) {
+                    loaded = true; break;
+                }
+            }
+        });
+    </script>
+    @endproduction
 </head>
 <body>
     @include('layouts.partials.header')
@@ -30,6 +46,7 @@
 
     @include('layouts.partials.footer')
 
+    <script src="{{ asset('build/assets/app-DXHi4WXo.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>
